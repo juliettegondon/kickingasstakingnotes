@@ -7,7 +7,7 @@ var fs = require("fs");
 var app = express();
 
 //changed port for heroku
-var PORT =  process.env.PORT || 3000;
+var PORT =  process.env.PORT || 8000;
 
 const notes = require("./Develop/db/db.json");
 console.log(Array.isArray(notes));
