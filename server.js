@@ -5,7 +5,9 @@ var path = require("path");
 var fs = require("fs");
 
 var app = express();
-var PORT = 8080;
+
+//changed port for heroku
+var PORT =  process.env.PORT || 3000;
 
 const notes = require("./Develop/db/db.json");
 console.log(Array.isArray(notes));
@@ -28,7 +30,7 @@ app.get("/", (req, res) => {
 app.get("/notes", (req, res) => {
     res.sendFile(path.join(__dirname, "./Develop/public/notes.html"));
 });
-// GET -  API route to get notes /// ASK TA
+// GET -  API route to get notes /// ASK TA ABOUT THIS FUNCTION TO READ & RETURN NOTES AS JSON
 app.get("/api/notes", (req, res) => {
     res.json(notes);
 });
@@ -38,6 +40,7 @@ app.get("/api/notes", (req, res) => {
 // JSON function returns as string
 app.post("/api/notes", (req, res) => {
        var addNote = req.body; 
+       console.log(addNote);
        notes.push(addNote);
        fs.writeFileSync(path.join(__dirname, './Develop/db/db.json'),JSON.stringify(notes))
 });
