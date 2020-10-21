@@ -24,11 +24,11 @@ app.use(express.static("public"));
 // GET requests to the 2 given html files & API
 // GET reads db.json and returns saved notes as JSON
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "./Develop/public/index.html"));
+    res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 app.get("/notes", (req, res) => {
-    res.sendFile(path.join(__dirname, "./Develop/public/notes.html"));
+    res.sendFile(path.join(__dirname, "./public/notes.html"));
 });
 // GET -  API route to get notes /// ASK TA ABOUT THIS FUNCTION TO READ & RETURN NOTES AS JSON
 app.get("/api/notes", (req, res) => {
@@ -42,7 +42,7 @@ app.post("/api/notes", (req, res) => {
        var addNote = req.body; 
        console.log(addNote);
        notes.push(addNote);
-       fs.writeFileSync(path.join(__dirname, './Develop/db/db.json'),JSON.stringify(notes))
+       fs.writeFileSync(path.join(__dirname, './db/db.json'),JSON.stringify(notes))
 });
 
 //// listener
