@@ -1,15 +1,13 @@
 //////// dependencies & variables
-const { notStrictEqual } = require("assert");
 var express = require("express");
 var path = require("path");
 var fs = require("fs");
-
 var app = express();
 
 //changed port for heroku
 var PORT =  process.env.PORT || 8000;
 
-const notes = require("./Develop/db/db.json");
+const notes = require("./db/db.json");
 console.log(Array.isArray(notes));
 
 //middleware makes data available before it hits route
@@ -30,7 +28,7 @@ app.get("/", (req, res) => {
 app.get("/notes", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/notes.html"));
 });
-// GET -  API route to get notes /// ASK TA ABOUT THIS FUNCTION TO READ & RETURN NOTES AS JSON
+// GET -  API route to get notes // READ & LATER RETURN NOTES AS JSON
 app.get("/api/notes", (req, res) => {
     res.json(notes);
 });
@@ -39,15 +37,33 @@ app.get("/api/notes", (req, res) => {
 // POST request to API ROUTE,get user input on frontend, add to db.json, and append to frontend.
 // JSON function returns as string
 app.post("/api/notes", (req, res) => {
-       var addNote = req.body; 
-       console.log(addNote);
-       notes.push(addNote);
+       var newNote = req.body;
+       newNote.id = Date.now(); 
+       notes.push(newNote);
        fs.writeFileSync(path.join(__dirname, './db/db.json'),JSON.stringify(notes))
-});
+        res.json(newNote.id)
+        console.log(newNote.id);
+    });
+//DELETE REQUEST 
+app.delete("/api/notes/:id", (req, res) => {
+    console.log(req.params.id);
+    var id = req.params.id
+    var deletedID = id;
+    var newNotesArray = notes.filter(newValue => {
+        return newValue.id !== id
+    }) 
+    // iterating over the array & generating ID for deleted note
+        for (newValue of newNotesArray) {
+            newValue.id = deletedID.toString();
+            deletedID++;
+        }
+     fs.writeFileSync(path.join(__dirname, './db/db.json'),JSON.stringify(newNotesArray))
+    console.log(newNotesArray);
+    res.json(newNotesArray);
+})
 
 //// listener
 app.listen(PORT, () => {
-    console.log(`listening at http://localhost:${PORT}`)
+    console.log(`listening at ${PORT}`)
 });
 
-// DELETE - enter id of note to delete, delete note, write notes. 
