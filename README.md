@@ -28,7 +28,7 @@ ISC
   n/a
 
   ## Usage:
-  working on deploying this to heroku, check for link. 
+  (https://dashboard.heroku.com/apps/radiant-refuge-96047)
 
   ## Questions: 
 
