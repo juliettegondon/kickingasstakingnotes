@@ -7,7 +7,7 @@ var app = express();
 //changed port for heroku
 var PORT =  process.env.PORT || 8000;
 
-const notes = require("./db/db.json");
+var notes = require("./db/db.json");
 console.log(Array.isArray(notes));
 
 //middleware makes data available before it hits route
@@ -30,6 +30,11 @@ app.get("/notes", (req, res) => {
 });
 // GET -  API route to get notes // READ & LATER RETURN NOTES AS JSON
 app.get("/api/notes", (req, res) => {
+    fs.readFileSync("./db/db.json", 'utf8', function(err,data) {
+        if (err) {
+            throw err
+        }
+    });
     res.json(notes);
 });
 
@@ -37,8 +42,15 @@ app.get("/api/notes", (req, res) => {
 // POST request to API ROUTE,get user input on frontend, add to db.json, and append to frontend.
 // JSON function returns as string
 app.post("/api/notes", (req, res) => {
+   // adding to read the file at  each endpoint to get the latest state of the database. 
+   fs.readFileSync("./db/db.json", 'utf8', function(err,data) {
+       if (err) {
+           throw err
+       }
+   });
        var newNote = req.body;
-       newNote.id = Date.now(); 
+       var noteId = Date.now();
+       newNote.id = noteId.toString(); 
        notes.push(newNote);
        fs.writeFileSync(path.join(__dirname, './db/db.json'),JSON.stringify(notes))
         res.json(newNote.id)
@@ -46,6 +58,11 @@ app.post("/api/notes", (req, res) => {
     });
 //DELETE REQUEST 
 app.delete("/api/notes/:id", (req, res) => {
+    fs.readFileSync("./db/db.json", 'utf8', function(err,data) {
+        if (err) {
+            throw err
+        }
+    });
     console.log(req.params.id);
     var id = req.params.id
     var deletedID = id;
