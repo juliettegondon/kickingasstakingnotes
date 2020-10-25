@@ -10,3 +10,28 @@ This assignment required us to use an express backend and save and retrieve note
   * DELETE request - receievs the param with the id of a note to delete so it changes in the database file
 
 
+There is an issue where the note deletes from the database but the html file still has it rendered to the saved notes section, which I am still working on.
+
+  ## Installation:
+npm install 
+install for express, path, and fs. 
+
+  ## License:
+ISC
+
+  
+
+  ## Contributing:
+  n/a
+
+  ## Tests:
+  n/a
+
+  ## Usage:
+  working on deploying this to heroku, check for link. 
+
+  ## Questions: 
+
+If you have any questions, you can contact the creator of this repo here: [juliettegondon@gmail.com](mailto:juliettegondon@gmail.com)
+GitHub: https://github.com/juliettegondon
+
